@@ -19,6 +19,8 @@ use Task\TaskBundle\Entity\TaskExecution;
 
 /**
  * Task-Repository implementation for doctrine.
+ *
+ * @extends EntityRepository<TaskInterface>
  */
 class DoctrineTaskRepository extends EntityRepository implements TaskRepositoryInterface
 {
@@ -62,7 +64,7 @@ class DoctrineTaskRepository extends EntityRepository implements TaskRepositoryI
         return $task;
     }
 
-    public function countFutureTasks(string $entityClass, string $entityId, string $locale = null): int
+    public function countFutureTasks(string $entityClass, string $entityId, ?string $locale = null): int
     {
         $queryBuilder = $this->createQueryBuilder('task')
             ->select('COUNT(task.id)')
@@ -86,7 +88,7 @@ class DoctrineTaskRepository extends EntityRepository implements TaskRepositoryI
         return (int) $result;
     }
 
-    public function countPendingTasks(string $entityClass, string $entityId, string $locale = null): int
+    public function countPendingTasks(string $entityClass, string $entityId, ?string $locale = null): int
     {
         $queryBuilder = $this->_em->createQueryBuilder()
             ->select('COUNT(taskExecution.uuid)')
